@@ -58,13 +58,14 @@
         <h3><font id="nodeName"></font> (<font id="nodeType"></font>)</h3>
         <h4>My account</h4>
         <h5>Address: <br><strong id="coinbase"></strong></h5>
-        <h5>ETH Balance (ether): <br><strong id="balance"></strong></h5>
-        <h5>Energy Balance (watt): <br><strong id="energyBalance"></strong></h5>
+        <h5>Currency Balance (DaiseeCoin): <br><strong id="balance"></strong></h5>
+        <h5>Energy Balance (Watt): <br><strong id="energyBalance"></strong></h5>
       </div>
 
       <div class="col-md-8">
 		<div class="chart-container">
 			<div id="flot-placeholder" style="width:auto;height:250px"></div>
+            <h5><center>Current consumption : <strong id="current"> W</strong></center></h5>
 		</div>
       </div>
     </div>
@@ -121,6 +122,7 @@
                 var item = JSON.parse(json);
                 // var energy = [item.timestamp, item.value]; //data format [x, y]
                 var energy = [now += updateInterval, item.value]; //data format [x, y]
+                $('#current').text(item.value);
 
                 energyData.push(energy);
 
@@ -140,14 +142,10 @@
             },
             xaxis: {
                 mode: "time",
-                tickSize: [2, "second"],
+                tickSize: [8, "second"],
                 tickFormatter: function (v, axis) {
-                    console.log('v');
-                    console.log(v);
-                    var date = new Date(v);
-                    console.log('date');
-                    console.log(date);
 
+                    var date = new Date(v);
 
                     if (date.getSeconds() % 20 == 0) {
                         var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
@@ -161,14 +159,14 @@
                 },
                 axisLabel: "Time",
                 axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 12,
+                axisLabelFontSizePixels: 14,
                 axisLabelFontFamily: 'Verdana, Arial',
-                axisLabelPadding: 12
+                axisLabelPadding: 10
             },
             yaxis: {
                 min: 0,
                 max: 100,
-                tickSize: 5,
+                tickSize: 10,
                 tickFormatter: function (v, axis) {
                     if (v % 10 == 0) {
                         return v + " W";
