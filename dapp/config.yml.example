@@ -1,0 +1,20 @@
+contract:
+  address: ''
+  fctEnergyBalance: ''
+  fctConsumeEnergy:  ''
+  fctSetProduction:  ''
+  fctBuyEnergy: ''
+  fctGetRate: ''
+user:
+  login: ''
+  pwd: ''
+  coinbase: ''
+  name: ''
+  typ: ''
+  url: ''
+  sensorId:
+  sensorLogin: ''
+  sensorPassword: ''
+  sensorSource: ''
+  lat:
+  lon:
