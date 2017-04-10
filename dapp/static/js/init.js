@@ -19,6 +19,8 @@ $.getJSON('http://' + ip  + '/getconfig/', function (data) {
     var account = config.coinbase;
     $('#nodeName').text(config.name);
     $('#nodeType').text(config.typ);
+    $('#coinbase').text(account);
+    $('#contract').text(contractAddress);
 
     web3.eth.defaultAccount = account;
 
@@ -30,63 +32,38 @@ $.getJSON('http://' + ip  + '/getconfig/', function (data) {
     // Get hold of contract instance
     var contract = web3.eth.contract(abiArray).at(contractAddress);
 
-    // Setup filter to watch transactions
-    var filter = web3.eth.filter('latest');
-    //var filter = web3.eth.filter({fromBlock:0, toBlock: 'latest', address: contractAddress, 'topics':['0x' + web3.sha3('newtest(string,uint256,string,string,uint256)')]});
-
-    filter.watch(function(error, result){
-
-      if (error) return;
-
-      var block = web3.eth.getBlock(result, true);
-
-      console.log('block #' + block.number);
-      console.dir(block.transactions);
-
-      for (var index = 0; index < block.transactions.length; index++) {
-        var t = block.transactions[index];
-
-        // Decode "from" and "to"
-        var from = t.from==account ? "me" : t.from;
-        var to = t.to==account ? "me" : t.to;
-
-        // Decode function
-        var func = findFunctionByHash(functionHashes, t.input);
-
-        if (func == 'setProduction') {
-          var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
-          console.dir(inputData);
-          $('#transactions').append('<tr><td>' + t.blockNumber +
-            '</td><td>' + from +
-            '</td><td>' + "DAISEE" +
-            '</td><td>setProduction(' + inputData[0].toString() + ')</td></tr>');
-        } else if (func == 'consumeEnergy') {
-          var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
-          console.dir(inputData);
-          $('#transactions').append('<tr><td>' + t.blockNumber +
-            '</td><td>' + from +
-            '</td><td>' + "DAISEE" +
-            '</td><td>consumeEnergy(' + inputData[0].toString() + ')</td></tr>');
-        } else if (func == 'buyEnergy') {
-          var inputData = SolidityCoder.decodeParams(["uint256"], t.input.substring(10));
-          console.dir(inputData);
-          $('#transactions').append('<tr><td>' + t.blockNumber +
-            '</td><td>' + from +
-            '</td><td>' + "DAISEE" +
-            '</td><td>buyEnergy(' + inputData[0].toString() + ')</td></tr>');
-          } else {
-          // Default log => for debug
-          //$('#transactions').append('<tr><td>' + t.blockNumber + '</td><td>' + from + '</td><td>' + to + '</td><td>' + t.input + '</td></tr>')
-        }
-      }
+    // Contract events filters
+    var consEvent = contract.Consume()
+    consEvent.watch(function(error, result){
+      if (!error)
+        var from = result.args.from==account ? "me" : result.args.from;
+        $('#transactions').append('<tr><td>' + result.blockNumber +
+        '</td><td>' + from +
+        '</td><td>' + "" +
+        '</td><td>Energy consumed : ' + result.args.energy.c.toString() + ' W</td></tr>');
+    });
+    var prodEvent = contract.Produce()
+    prodEvent.watch(function(error, result){
+      if (!error)
+        var from = result.args.from==account ? "me" : result.args.from;
+        $('#transactions').append('<tr><td>' + result.blockNumber +
+        '</td><td>' + from +
+        '</td><td>' + "" +
+        '</td><td>Energy produced : ' + result.args.energy.c.toString() + ' W</td></tr>');
+    });
+    var buyEvent = contract.Buy()
+    buyEvent.watch(function(error, result){
+      if (!error)
+        var from = result.args.from==account ? "me" : result.args.from;
+        var to = result.args.to==account ? "me" : result.args.to;
+        $('#transactions').append('<tr><td>' + result.blockNumber +
+        '</td><td>' + from +
+        '</td><td>' + to +
+        '</td><td>Energy purchased : ' + result.args.energy.c.toString() + ' W</td></tr>');
     });
 
     // Update labels every second
     setInterval(function() {
-
-      // Account
-      $('#coinbase').text(account);
-      //$('#coinbase').text(contractAddress);
 
       // Account balance in Ether
       var balanceWei = web3.eth.getBalance(account).toNumber();
@@ -115,7 +92,6 @@ $.getJSON('http://' + ip  + '/getconfig/', function (data) {
     }, 1000);
 
 })
-
 
 // Get function hashes
 

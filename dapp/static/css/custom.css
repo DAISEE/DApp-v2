@@ -11,6 +11,10 @@ body{
     text-align: right;
     font-style: italic;
 }
+#contract-address {
+    text-align: right;
+    font-style: italic;
+}
 .chart-container {
 	box-sizing: border-box;
 	width: auto;
