@@ -97,7 +97,6 @@ $.getJSON('http://' + ip  + '/getconfig/', function (data) {
 })
 
 // Get function hashes
-// TODO: also extract input parameter types for later decoding
 
 function getFunctionHashes(abi) {
   var hashes = [];
