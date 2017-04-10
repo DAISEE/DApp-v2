@@ -1,0 +1,219 @@
+<html>
+<head>
+
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
+  <title>DAISEE</title>
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="static/js/jquery.min.js"></script>
+
+  <script src="static/js/abi.js"></script>
+  <script src="static/js/main.js"></script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="static/css/custom.css">
+
+</head>
+
+<body>
+
+  <!-- <nav class="navbar navbar-inverse navbar-fixed-top"> -->
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">DAISEE</a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#status">Network</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class ="row">
+      <br>
+      <br>
+      <br>
+      <h6 id="network-status"> Ethereum status : latest block number: <strong id="latestBlock"></strong>, latest block timestamp: <strong id="latestBlockTimestamp"></strong></h6>
+    </div>
+  </div>
+
+
+  <div class="container">
+
+    <div class ="row">
+
+      <div class="col-md-4">
+        <h3><font id="nodeName"></font> (<font id="nodeType"></font>)</h3>
+        <h4>My account</h4>
+        <h5>Address: <br><strong id="coinbase"></strong></h5>
+        <h5>Currency Balance (Ether): <br><strong id="balance"></strong></h5>
+        <h5>Energy Balance (Watt): <br><strong id="energyBalance"></strong></h5>
+      </div>
+
+      <div class="col-md-8">
+		<div class="chart-container">
+          <div id="flot-placeholder" style="width:auto;height:250px"></div>
+          <h5><center>Current consumption : <strong id="current">-</strong> W</center></h5>
+		</div>
+      </div>
+    </div>
+    <br>
+    <br>
+  </div> <!-- container -->
+
+  <div class="container">
+    <div class="row">
+      <div>
+        <h2 class="sub-header">Latest transactions <font size =4> (since <strong id="startedAt"></strong>)</font>:</h2>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>block#</th>
+                <th>from</th>
+                <th>to</th>
+                <th>transactions</th>
+              </tr>
+            </thead>
+            <tbody id="transactions">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div> <!-- container -->
+
+</body>
+
+
+
+    <script type="text/javascript" src="static/js/flot/jquery.flot.js"></script>
+	<script type="text/javascript" src="static/js/flot/jquery.flot.time.js"></script>
+
+    <script type="text/javascript">
+
+        var energyData = [];
+        var dataset;
+        var totalPoints = 20;
+        var updateInterval = 8000;
+        var now = new Date().getTime();
+
+        var ip = location.host;
+        function initData() {
+
+            energyData.shift(); //to remove first item of array
+
+            while (energyData.length < totalPoints) {
+                var y = '';
+                var temp = [now += updateInterval, y]; //data format [x, y]
+
+                energyData.push(temp);
+            }
+
+
+        }
+        function getData() {
+
+            $.getJSON('http://' + ip  + '/get_data/', function (data) {
+
+                var json = JSON.stringify(data.result);
+                var item = JSON.parse(json);
+                // var energy = [item.timestamp, item.value]; //data format [x, y]
+                var energy = [now += updateInterval, item.value]; //data format [x, y]
+                $('#current').text(item.value);
+
+                if (energyData.length > totalPoints) {energyData.shift();}
+                energyData.push(energy);
+
+            });
+        }
+
+        var options = {
+            series: {
+				bars: {
+					show: true,
+					barWidth: 8000,
+					align: "right"
+				}
+            },
+            xaxis: {
+                mode: "time",
+                tickSize: [8, "second"],
+                tickFormatter: function (v, axis) {
+
+                    var date = new Date(v);
+
+                    if (date.getSeconds() % 20 == 0) {
+                        var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+                        var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+                        var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+
+                        return hours + ":" + minutes + ":" + seconds;
+                    } else {
+                        return "";
+                    }
+                },
+                axisLabel: "Time",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 14,
+                axisLabelFontFamily: 'Verdana, Arial',
+                axisLabelPadding: 10
+            },
+            yaxis: {
+                min: 0,
+                max: 70,
+                tickSize: 10,
+                tickFormatter: function (v, axis) {
+                    if (v % 10 == 0) {
+                        return v + " W";
+                    } else {
+                        return "";
+                    }
+                },
+                axisLabel: "Watt",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: 'Verdana, Arial',
+                axisLabelPadding: 6
+            },
+            legend: {
+                labelBoxBorderColor: "#fff"
+            },
+        };
+
+        $(document).ready(function () {
+            initData();
+
+            dataset = [
+                { data: energyData, color: "#FFA812" }
+            ];
+
+            $.plot($("#flot-placeholder"), dataset, options);
+
+            function update() {
+                getData();
+
+                $.plot($("#flot-placeholder"), dataset, options)
+                setTimeout(update, updateInterval);
+            }
+
+            update();
+        });
+
+
+	</script>
+
+</html>
