@@ -3,7 +3,7 @@
 ![Snapshot](images/DApp.png)
 
 Prototype for a decentralized application on a private blockchain (Ethereum).   
-This work is in progress
+_Work in progress._
 
 The proto-documentation [in French]: https://hackpad.com/DAISEE-Design-Deploy-App-sTLyhw9iOaO
 
