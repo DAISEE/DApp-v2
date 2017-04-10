@@ -76,7 +76,7 @@ $.getJSON('http://' + ip  + '/getconfig/', function (data) {
             '</td><td>buyEnergy(' + inputData[0].toString() + ')</td></tr>');
           } else {
           // Default log => for debug
-          $('#transactions').append('<tr><td>' + t.blockNumber + '</td><td>' + from + '</td><td>' + to + '</td><td>' + t.input + '</td></tr>')
+          //$('#transactions').append('<tr><td>' + t.blockNumber + '</td><td>' + from + '</td><td>' + to + '</td><td>' + t.input + '</td></tr>')
         }
       }
     });
