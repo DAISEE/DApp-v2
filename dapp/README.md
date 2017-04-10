@@ -1,6 +1,6 @@
 # DApp
 
-![DzApp screenshot](/images/DzApp.png)  
+![DzApp screenshot](../images/DApp.png)  
 
 To run the server :
 
