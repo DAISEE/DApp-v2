@@ -9,20 +9,16 @@ if (typeof web3 !== 'undefined') {
 var SolidityCoder = require("web3/lib/solidity/coder.js");
 
 var ip = location.host;
-console.log(ip)
+
 $.getJSON('http://' + ip  + '/getconfig/', function (data) {
+
     var json = JSON.stringify(data.result);
     var config = JSON.parse(json);
-    console.log(config)
 
-    for (i in config) {
-        if (config[i].name == 'Contract') { var contractAddress = config[i].address; }
-        else if (config[i].id == 'node0') {
-            var account = config[i].address;
-            $('#nodeName').text(config[i].name);
-            $('#nodeType').text(config[i].typ);
-            }
-    }
+    var contractAddress = config.contract;
+    var account = config.coinbase;
+    $('#nodeName').text(config.name);
+    $('#nodeType').text(config.typ);
 
     web3.eth.defaultAccount = account;
 
@@ -43,8 +39,8 @@ $.getJSON('http://' + ip  + '/getconfig/', function (data) {
       if (error) return;
 
       var block = web3.eth.getBlock(result, true);
-      console.log('block #' + block.number);
 
+      console.log('block #' + block.number);
       console.dir(block.transactions);
 
       for (var index = 0; index < block.transactions.length; index++) {
@@ -80,7 +76,7 @@ $.getJSON('http://' + ip  + '/getconfig/', function (data) {
             '</td><td>buyEnergy(' + inputData[0].toString() + ')</td></tr>');
           } else {
           // Default log => for debug
-          // $('#transactions').append('<tr><td>' + t.blockNumber + '</td><td>' + from + '</td><td>' + to + '</td><td>' + t.input + '</td></tr>')
+          $('#transactions').append('<tr><td>' + t.blockNumber + '</td><td>' + from + '</td><td>' + to + '</td><td>' + t.input + '</td></tr>')
         }
       }
     });

@@ -58,14 +58,15 @@
         <h3><font id="nodeName"></font> (<font id="nodeType"></font>)</h3>
         <h4>My account</h4>
         <h5>Address: <br><strong id="coinbase"></strong></h5>
-        <h5>Currency Balance (DaiseeCoin): <br><strong id="balance"></strong></h5>
+        <h5>Currency Balance (Ether): <br><strong id="balance"></strong></h5>
         <h5>Energy Balance (Watt): <br><strong id="energyBalance"></strong></h5>
       </div>
 
       <div class="col-md-8">
 		<div class="chart-container">
-			<div id="flot-placeholder" style="width:auto;height:250px"></div>
-            <h5><center>Current consumption : <strong id="current"> W</strong></center></h5>
+          <div id="flot-placeholder" style="width:auto;height:250px"></div>
+          <!--  <h5><center>Current consumption : <strong id="current">-</strong> W</center></h5> -->
+          <h5><center>Current consumption : <strong id="current">-</strong> W</center></h5>
 		</div>
       </div>
     </div>
@@ -107,14 +108,25 @@
 
         var energyData = [];
         var dataset;
-        var totalPoints = 100;
+        var totalPoints = 20;
         var updateInterval = 8000;
         var now = new Date().getTime();
 
         var ip = location.host;
-        function getData() {
+        function initData() {
 
-            // energyData.shift(); //to remove first item of array
+            energyData.shift(); //to remove first item of array
+
+            while (energyData.length < totalPoints) {
+                var y = '';
+                var temp = [now += updateInterval, y]; //data format [x, y]
+
+                energyData.push(temp);
+            }
+
+
+        }
+        function getData() {
 
             $.getJSON('http://' + ip  + '/get_data/', function (data) {
 
@@ -124,21 +136,19 @@
                 var energy = [now += updateInterval, item.value]; //data format [x, y]
                 $('#current').text(item.value);
 
+                if (energyData.length > totalPoints) {energyData.shift();}
                 energyData.push(energy);
-
-                console.log('energyData');
-                console.log(energyData);
 
             });
         }
 
         var options = {
             series: {
-                lines: {
-                    show: true,
-                    lineWidth: 1.2,
-                    fill: true
-                }
+				bars: {
+					show: true,
+					barWidth: 8000,
+					align: "right"
+				}
             },
             xaxis: {
                 mode: "time",
@@ -165,7 +175,7 @@
             },
             yaxis: {
                 min: 0,
-                max: 100,
+                max: 70,
                 tickSize: 10,
                 tickFormatter: function (v, axis) {
                     if (v % 10 == 0) {
@@ -186,7 +196,7 @@
         };
 
         $(document).ready(function () {
-            getData();
+            initData();
 
             dataset = [
                 { data: energyData, color: "#FFA812" }

@@ -37,7 +37,6 @@ def getconfig():
 # Data
 # -------------------------
 def get_sensor_data(url, data, headers, sensorId, kwh, t0, t1):
-
     try:
         result=requests.post(
             url + '/api/' + str(sensorId) + '/get/' + kwh + '/by_time/' + str(t0) + '/' + str(t1),
