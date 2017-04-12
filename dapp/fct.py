@@ -18,6 +18,11 @@ with open('config.yml', 'r') as stream:
 # Hash
 # -------------------------
 def gethash(word):
+    """
+    return the sha256 hash in hex of the word
+
+
+    """
     hashword = hashlib.sha256(word.encode('utf-8')).hexdigest()
     return hashword
 
@@ -37,6 +42,13 @@ def getconfig():
 # Data
 # -------------------------
 def get_sensor_data(url, data, headers, sensorId, kwh, t0, t1):
+    """
+    This function is getting consumtion data from the <sensorID>, between <t0> and <t1>.
+    (I guess) <kwh> is the type of energy (like power/energy/average/peak or so ?!)
+    
+    Data are provided by a POST api on the <url> with credential line given in <data> and <headers>.
+
+    """
     try:
         result=requests.post(
             url + '/api/' + str(sensorId) + '/get/' + kwh + '/by_time/' + str(t0) + '/' + str(t1),
@@ -57,7 +69,9 @@ def get_sensor_data(url, data, headers, sensorId, kwh, t0, t1):
 
 
 def get_energy_data():
-    # this function collects data from all sensors (connected to each piece of work (=item))
+    """
+    This function collects data from all sensors (connected to each piece of work (=item))
+    """
 
     # definition of the time interval, in order to collect data
     time0 = time.time()
