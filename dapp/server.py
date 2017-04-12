@@ -6,6 +6,8 @@ from functools import wraps
 import fct
 import yaml
 
+import logging
+
 
 app = Flask(__name__)
 app.debug = True
@@ -36,6 +38,8 @@ def requires_auth(f):
         auth = request.authorization
         if not auth or not check_auth(auth.username, auth.password):
             return authenticate()
+        else:
+            pass # maybe log something ?
         return f(*args, **kwargs)
     return decorated
 
@@ -67,4 +71,10 @@ def hashword(word):
     return hashword
 
 if __name__ == "__main__":
+    
+
+    logging.basicConfig(level=logging.DEBUG)
+
+
+    logging.debug("entering main")
     app.run()
