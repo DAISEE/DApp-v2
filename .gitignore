@@ -1,0 +1,6 @@
+# Created by .ignore support plugin (hsz.mobi)
+/dapp/config.yml
+/dapp/fctdebug.py
+dapp/__pycache__/
+.idea
+
