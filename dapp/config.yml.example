@@ -1,10 +1,7 @@
 contract:
   address: ''
-  fctEnergyBalance: ''
-  fctConsumeEnergy:  ''
-  fctSetProduction:  ''
-  fctBuyEnergy: ''
-  fctGetRate: ''
+token:
+  address: ''
 user:
   login: ''
   pwd: ''

@@ -17,10 +17,12 @@ $.getJSON('http://' + ip  + '/getconfig/', function (data) {
 
     var contractAddress = config.contract;
     var account = config.coinbase;
+    var tokenAddress = config.token;
     $('#nodeName').text(config.name);
     $('#nodeType').text(config.typ);
     $('#coinbase').text(account);
     $('#contract').text(contractAddress);
+    $('#token').text(tokenAddress);
 
     web3.eth.defaultAccount = account;
 
@@ -28,6 +30,9 @@ $.getJSON('http://' + ip  + '/getconfig/', function (data) {
 
     // Assemble function hashes
     var functionHashes = getFunctionHashes(abiArray);
+
+    // token contract (DaiseeCoin)
+    var token = web3.eth.contract(tokenAbiArray).at(tokenAddress);
 
     // Get hold of contract instance
     var contract = web3.eth.contract(abiArray).at(contractAddress);
@@ -66,8 +71,9 @@ $.getJSON('http://' + ip  + '/getconfig/', function (data) {
     setInterval(function() {
 
       // Account balance in Ether
-      var balanceWei = web3.eth.getBalance(account).toNumber();
-      var balance = web3.fromWei(balanceWei, 'ether');
+      //var balanceWei = web3.eth.getBalance(account).toNumber();
+      //var balance = web3.fromWei(balanceWei, 'ether');
+      var balance = token.balanceOf(account)
       $('#balance').text(balance);
 
       // Block infos

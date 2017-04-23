@@ -7,11 +7,7 @@ body{
     background-color:#272b30;
     min-height: 850;
 }
-#network-status {
-    text-align: right;
-    font-style: italic;
-}
-#contract-address {
+.bc-infos {
     text-align: right;
     font-style: italic;
 }

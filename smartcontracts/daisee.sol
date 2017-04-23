@@ -1,25 +1,32 @@
-pragma solidity ^0.4.0;
-contract Daiseev2 {
+contract Daisee {
 
     // variables
-
-    //// tarif de l'énergie en finney
+    //// tarif de l'énergie en DaiseeCoin
     uint private rate;
+    bool private transactionOK;
     //// utilisateurs
     mapping (address => uint) energyProduction;
     mapping (address => uint) energyBalance;
     mapping (address => uint) energyConsumption;
 
-
     // constructeur
     function Daisee() {
-        rate = 15 finney; // (= 0.015 ethers)
+        rate = 1; // (=> 1W = 1 DaiseeCoin)
     }
 
-    // définition des events pour les appels à partir des clients légers (non implémenté)
+    // définition des events pour les appels à partir des clients légers
     event Produce(address from, uint energy);
     event Consume(address from, uint energy);
     event Buy(address from, address to, uint energy);
+
+
+    // fontion permettant de payer en DaiseeCoin
+	function sendCoin(address coinContractAddress, address energyBuyer, address energySeller, uint amount) returns (bool success){
+		token m = token(coinContractAddress);
+		success = m.transferFrom(energyBuyer, energySeller, amount);
+		return success;
+	}
+
 
     // fonction permettant de mettre à jour l'énergie produite et
     // donc dispo à la vente
@@ -45,18 +52,19 @@ contract Daiseev2 {
     }
 
     // fonction permettant la vente d'énergie
-    function buyEnergy(address seller, uint energy) returns (bool transactionOK) {
-        // on verifie d'abord que l'acheteur n'achète pas sa propre énergie
-        if ( msg.sender == seller ) throw;
+    function buyEnergy(address coinContractAddress, address seller, uint energy) returns (bool transactionOK) {
         // on vérifie qu'il y a suffisamment d'énergie dispo
         if ( energy > energyBalance[seller] ) throw;
-        // on verifie que l'acheteur a suffisamment de fond
-        if ( (energy * rate ) > msg.sender.balance ) throw;
+        // appel de la fonction de transfer de DaiseeCoin
+        // 1W = 1DaiseeCoin, pas de besoin de conversion
+        transactionOK = sendCoin(coinContractAddress, msg.sender, seller, energy);
+        if (transactionOK != true) throw;
         // on met à jour les balances de chaque utilisateur
         energyBalance[msg.sender] += energy;
         energyBalance[seller]     -= energy;
         //event
         Buy(msg.sender, seller, energy);
+        return transactionOK;
     }
 
     // fonction permettant de connaitre sa balance d'energie

@@ -2,5 +2,5 @@
 /dapp/config.yml
 /dapp/fctdebug.py
 dapp/__pycache__/
-.idea
-
+.idea/
+/test.py

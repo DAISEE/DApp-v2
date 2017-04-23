@@ -9,6 +9,7 @@
   <script src="static/js/jquery.min.js"></script>
 
   <script src="static/js/abi.js"></script>
+  <script src="static/js/token-abi.js"></script>
   <script src="static/js/main.js"></script>
 
   <!-- Latest compiled and minified CSS -->
@@ -45,8 +46,9 @@
       <br>
       <br>
       <br>
-      <h6 id="network-status">Ethereum status : latest block number: <strong id="latestBlock"></strong>, latest block timestamp: <strong id="latestBlockTimestamp"></strong></h6>
-      <h6 id="contract-address">Contract address : <strong id="contract"></strong></h6>
+      <h6 class="bc-infos">Ethereum status : latest block number: <strong id="latestBlock"></strong>, latest block timestamp: <strong id="latestBlockTimestamp"></strong></h6>
+      <h6 class="bc-infos">Contract address : <strong id="contract"></strong></h6>
+      <h6 class="bc-infos">Token address : <strong id="token"></strong></h6>
     </div>
   </div>
 
@@ -59,7 +61,7 @@
         <h3><font id="nodeName"></font> (<font id="nodeType"></font>)</h3>
         <h4>My account</h4>
         <h5>Address: <br><strong id="coinbase"></strong></h5>
-        <h5>Currency Balance (Ether): <br><strong id="balance"></strong></h5>
+        <h5>Currency Balance (DaiseeCoin): <br><strong id="balance"></strong></h5>
         <h5>Energy Balance (Watt): <br><strong id="energyBalance"></strong></h5>
       </div>
 

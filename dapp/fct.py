@@ -34,7 +34,8 @@ def getconfig():
     config = {'contract': param['contract']['address'],
               'name': param['user']['name'],
               'coinbase': param['user']['coinbase'],
-              'typ': param['user']['typ']}
+              'typ': param['user']['typ'],
+              'token': param['token']['address']}
 
     return config
 
