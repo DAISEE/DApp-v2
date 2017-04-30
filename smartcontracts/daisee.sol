@@ -1,3 +1,4 @@
+pragma solidity ^0.4.2;
 contract Daisee {
 
     // variables
@@ -20,7 +21,7 @@ contract Daisee {
     event Buy(address from, address to, uint energy);
 
 
-    // fontion permettant de payer en DaiseeCoin
+    // fonction permettant de payer en DaiseeCoin
 	function sendCoin(address coinContractAddress, address energyBuyer, address energySeller, uint amount) returns (bool success){
 		token m = token(coinContractAddress);
 		success = m.transferFrom(energyBuyer, energySeller, amount);
