@@ -402,4 +402,4 @@ var tokenAbiArray = [
     "name": "Transfer",
     "type": "event"
   }
-]
+];

@@ -204,4 +204,4 @@ var abiArray = [
     "name": "Buy",
     "type": "event"
   }
-]
+];
