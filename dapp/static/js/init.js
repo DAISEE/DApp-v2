@@ -28,9 +28,6 @@ $.getJSON('http://' + ip  + '/getconfig/', function (data) {
 
     var now = new Date();
 
-    // Assemble function hashes
-    var functionHashes = getFunctionHashes(abiArray);
-
     // token contract (DaiseeCoin)
     var token = web3.eth.contract(tokenAbiArray).at(tokenAddress);
 
@@ -70,9 +67,7 @@ $.getJSON('http://' + ip  + '/getconfig/', function (data) {
     // Update labels every second
     setInterval(function() {
 
-      // Account balance in Ether
-      //var balanceWei = web3.eth.getBalance(account).toNumber();
-      //var balance = web3.fromWei(balanceWei, 'ether');
+      // Token balance in DaiseeCoin
       var balance = token.balanceOf(account)
       $('#balance').text(balance);
 
@@ -98,26 +93,3 @@ $.getJSON('http://' + ip  + '/getconfig/', function (data) {
     }, 1000);
 
 })
-
-// Get function hashes
-
-function getFunctionHashes(abi) {
-  var hashes = [];
-  for (var i=0; i<abi.length; i++) {
-    var item = abi[i];
-    if (item.type != "function") continue;
-    var signature = item.name + "(" + item.inputs.map(function(input) {return input.type;}).join(",") + ")";
-    var hash = web3.sha3(signature);
-    console.log(item.name + '=' + hash);
-    hashes.push({name: item.name, hash: hash});
-  }
-  return hashes;
-}
-
-function findFunctionByHash(hashes, functionHash) {
-  for (var i=0; i<hashes.length; i++) {
-    if (hashes[i].hash.substring(0, 10) == functionHash.substring(0, 10))
-      return hashes[i].name;
-  }
-  return null;
-}

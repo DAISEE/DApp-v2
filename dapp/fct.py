@@ -35,14 +35,15 @@ def getconfig():
               'name': param['user']['name'],
               'coinbase': param['user']['coinbase'],
               'typ': param['user']['typ'],
-              'token': param['token']['address']}
+              'token': param['token']['address'],
+              'ip' : param['user']['url']}
 
     return config
 
 
 # Data
 # -------------------------
-def get_sensor_data(url, data, headers, sensorId, kwh, t0, t1):
+def get_sensor_data(url, port, data, headers, sensorId, kwh, t0, t1):
     """
     This function is getting consumtion data from the <sensorID>, between <t0> and <t1>.
     (I guess) <kwh> is the type of energy (like power/energy/average/peak or so ?!)
@@ -53,7 +54,7 @@ def get_sensor_data(url, data, headers, sensorId, kwh, t0, t1):
     log = logging.getLogger("get_sensor_data")
     try:
         result=requests.post(
-            url + '/api/' + str(sensorId) + '/get/' + kwh + '/by_time/' + str(t0) + '/' + str(t1),
+            url + port + '/api/' + str(sensorId) + '/get/' + kwh + '/by_time/' + str(t0) + '/' + str(t1),
             headers=headers,
             data=data)
     except json.JSONDecodeError as e:
@@ -94,11 +95,12 @@ def get_energy_data():
     itemLogin = param['user']['sensorLogin']
     itemPswd = param['user']['sensorPassword']
     itemSource = param['user']['sensorSource']
+    itemPort = ':' + param['user']['sensorPort']
 
     try:
         if itemSource == 'CW':
             data = 'login=' + itemLogin + '&password=' + itemPswd
-            value = get_sensor_data(itemUrl, data, headers, itemSensorId, 'watts', time0, time1)
+            value = get_sensor_data(itemUrl, itemPort, data, headers, itemSensorId, 'watts', time0, time1)
         else:
             value = {}
             print('get_energy_data() - ERROR : OEM connexion - not available')
