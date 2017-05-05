@@ -71,7 +71,7 @@ def hashword(word):
     return hashword
 
 if __name__ == "__main__":
-    
+
     logging.basicConfig(level=logging.DEBUG)
 
     logging.debug("entering main")

@@ -45,7 +45,8 @@ def getconfig():
 def get_sensor_data(url, port, data, headers, sensorId, kwh, t0, t1):
     """
     This function is getting consumtion data from the <sensorID>, between <t0> and <t1>.
-    (I guess) <kwh> is the type of energy (like power/energy/average/peak or so ?!)    
+    (I guess) <kwh> is the type of energy (like power/energy/average/peak or so ?!)
+    
     Data are provided by a POST api on the <url> with credential line given in <data> and <headers>.
 
     """

@@ -7,7 +7,7 @@ $.getJSON("http://" + ip  + "/getconfig/", function (data) {
     var contractAddress = config.contract;
     var account = config.coinbase;
     var tokenAddress = config.token;
-    var url = config.url;
+    var url = config.ip;
 
     var Web3 = require("./node_modules/web3/index.js");
     if (typeof web3 !== "undefined") {
@@ -36,8 +36,8 @@ $.getJSON("http://" + ip  + "/getconfig/", function (data) {
     var contract = web3.eth.contract(abiArray).at(contractAddress);
 
     // Contract events filters
-    var consEvent = contract.Consume();
-    consEvent.watch(function(error, result){
+    var consevent = contract.Consume();
+    consevent.watch(function(error, result){
       if (!error){
         var from = result.args.from===account ? "me" : result.args.from;
         $("#transactions").append("<tr><td>" + result.blockNumber +
@@ -46,8 +46,8 @@ $.getJSON("http://" + ip  + "/getconfig/", function (data) {
         "</td><td>Energy consumed : " + result.args.energy.c.toString() + " W</td></tr>");
         }
     });
-    var prodEvent = contract.Produce();
-    prodEvent.watch(function(error, result){
+    var prodevent = contract.Produce();
+    prodevent.watch(function(error, result){
       if (!error){
         var from = result.args.from===account ? "me" : result.args.from;
         $("#transactions").append("<tr><td>" + result.blockNumber +
@@ -56,8 +56,8 @@ $.getJSON("http://" + ip  + "/getconfig/", function (data) {
         "</td><td>Energy produced : " + result.args.energy.c.toString() + " W</td></tr>");
         }
     });
-    var buyEvent = contract.Buy();
-    buyEvent.watch(function(error, result){
+    var buyevent = contract.Buy();
+    buyevent.watch(function(error, result){
       if (!error){
         var from = result.args.from===account ? "me" : result.args.from;
         var to = result.args.to===account ? "me" : result.args.to;
@@ -72,16 +72,16 @@ $.getJSON("http://" + ip  + "/getconfig/", function (data) {
     setInterval(function() {
 
       // Token balance in DaiseeCoin
-      var balance = token.balanceOf(account)
+      var balance = token.balanceOf(account);
       $("#balance").text(balance);
 
       // Block infos
       var number = web3.eth.blockNumber;
-      if ($("#latestBlock").text() != number) {
+      if ($("#latestBlock").text() !== number) {
         $("#latestBlock").text(number);
         }
 
-      var hash = web3.eth.getBlock(number).hash
+      var hash = web3.eth.getBlock(number).hash;
       $("#latestBlockHash").text(hash);
 
       var timeStamp = web3.eth.getBlock(number).timestamp;
