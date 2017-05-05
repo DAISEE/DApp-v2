@@ -1,5 +1,5 @@
 var ip = location.host;
-$.getJSON('http://' + ip  + '/getconfig/', function (data) {
+$.getJSON("http://" + ip  + "/getconfig/", function (data) {
 
     var json = JSON.stringify(data.result);
     var config = JSON.parse(json);
@@ -9,8 +9,8 @@ $.getJSON('http://' + ip  + '/getconfig/', function (data) {
     var tokenAddress = config.token;
     var url = config.url;
 
-    var Web3 = require('./node_modules/web3/index.js');
-    if (typeof web3 !== 'undefined') {
+    var Web3 = require("./node_modules/web3/index.js");
+    if (typeof web3 !== "undefined") {
       web3 = new Web3(web3.currentProvider);
     } else {
       // set the provider you want from Web3.providers
@@ -19,11 +19,11 @@ $.getJSON('http://' + ip  + '/getconfig/', function (data) {
 
     var SolidityCoder = require("web3/lib/solidity/coder.js");
 
-    $('#nodeName').text(config.name);
-    $('#nodeType').text(config.typ);
-    $('#coinbase').text(account);
-    $('#contract').text(contractAddress);
-    $('#token').text(tokenAddress);
+    $("#nodeName").text(config.name);
+    $("#nodeType").text(config.typ);
+    $("#coinbase").text(account);
+    $("#contract").text(contractAddress);
+    $("#token").text(tokenAddress);
 
     web3.eth.defaultAccount = account;
 
@@ -36,33 +36,36 @@ $.getJSON('http://' + ip  + '/getconfig/', function (data) {
     var contract = web3.eth.contract(abiArray).at(contractAddress);
 
     // Contract events filters
-    var consEvent = contract.Consume()
+    var consEvent = contract.Consume();
     consEvent.watch(function(error, result){
-      if (!error)
-        var from = result.args.from==account ? "me" : result.args.from;
-        $('#transactions').append('<tr><td>' + result.blockNumber +
-        '</td><td>' + from +
-        '</td><td>' + "" +
-        '</td><td>Energy consumed : ' + result.args.energy.c.toString() + ' W</td></tr>');
+      if (!error){
+        var from = result.args.from===account ? "me" : result.args.from;
+        $("#transactions").append("<tr><td>" + result.blockNumber +
+        "</td><td>" + from +
+        "</td><td>" +
+        "</td><td>Energy consumed : " + result.args.energy.c.toString() + " W</td></tr>");
+        }
     });
-    var prodEvent = contract.Produce()
+    var prodEvent = contract.Produce();
     prodEvent.watch(function(error, result){
-      if (!error)
-        var from = result.args.from==account ? "me" : result.args.from;
-        $('#transactions').append('<tr><td>' + result.blockNumber +
-        '</td><td>' + from +
-        '</td><td>' + "" +
-        '</td><td>Energy produced : ' + result.args.energy.c.toString() + ' W</td></tr>');
+      if (!error){
+        var from = result.args.from===account ? "me" : result.args.from;
+        $("#transactions").append("<tr><td>" + result.blockNumber +
+        "</td><td>" + from +
+        "</td><td>" +
+        "</td><td>Energy produced : " + result.args.energy.c.toString() + " W</td></tr>");
+        }
     });
-    var buyEvent = contract.Buy()
+    var buyEvent = contract.Buy();
     buyEvent.watch(function(error, result){
-      if (!error)
-        var from = result.args.from==account ? "me" : result.args.from;
-        var to = result.args.to==account ? "me" : result.args.to;
-        $('#transactions').append('<tr><td>' + result.blockNumber +
-        '</td><td>' + from +
-        '</td><td>' + to +
-        '</td><td>Energy purchased : ' + result.args.energy.c.toString() + ' W</td></tr>');
+      if (!error){
+        var from = result.args.from===account ? "me" : result.args.from;
+        var to = result.args.to===account ? "me" : result.args.to;
+        $("#transactions").append("<tr><td>" + result.blockNumber +
+        "/td><td>" + from +
+        "</td><td>" + to +
+        "</td><td>Energy purchased : " + result.args.energy.c.toString() + " W</td></tr>");
+        }
     });
 
     // Update labels every second
@@ -70,27 +73,28 @@ $.getJSON('http://' + ip  + '/getconfig/', function (data) {
 
       // Token balance in DaiseeCoin
       var balance = token.balanceOf(account)
-      $('#balance').text(balance);
+      $("#balance").text(balance);
 
       // Block infos
       var number = web3.eth.blockNumber;
-      if ($('#latestBlock').text() != number)
-        $('#latestBlock').text(number);
+      if ($("#latestBlock").text() != number) {
+        $("#latestBlock").text(number);
+        }
 
       var hash = web3.eth.getBlock(number).hash
-      $('#latestBlockHash').text(hash);
+      $("#latestBlockHash").text(hash);
 
       var timeStamp = web3.eth.getBlock(number).timestamp;
       var d = new Date(0);
       d.setUTCSeconds(timeStamp);
-      $('#latestBlockTimestamp').text(d);
+      $("#latestBlockTimestamp").text(d);
 
       // Contract energy balance: call (not state changing)
       var energyBalance = contract.getEnergyBalance.call();
-      $('#energyBalance').text(energyBalance);
+      $("#energyBalance").text(energyBalance);
 
-      $('#startedAt').text(now);
+      $("#startedAt").text(now);
 
     }, 1000);
 
-})
+});
