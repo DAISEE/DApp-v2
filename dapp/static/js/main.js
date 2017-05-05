@@ -1,18 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var Web3 = require('./node_modules/web3/index.js');
-if (typeof web3 !== 'undefined') {
-  web3 = new Web3(web3.currentProvider);
-} else {
-  // set the provider you want from Web3.providers
-  web3 = new Web3(new Web3.providers.HttpProvider("http://0.0.0.0:8545"));
-}
-
-// NOTE: Need to compile with browserify init.js -o main.js
-// attention modification manuelle du main.js => ne pas utiliser init.js et browserify
-var SolidityCoder = require("web3/lib/solidity/coder.js");
 
 var ip = location.host;
-
 $.getJSON('http://' + ip  + '/getconfig/', function (data) {
 
     var json = JSON.stringify(data.result);
@@ -21,6 +9,18 @@ $.getJSON('http://' + ip  + '/getconfig/', function (data) {
     var contractAddress = config.contract;
     var account = config.coinbase;
     var tokenAddress = config.token;
+    var url = config.url;
+
+    var Web3 = require('./node_modules/web3/index.js');
+    if (typeof web3 !== 'undefined') {
+      web3 = new Web3(web3.currentProvider);
+    } else {
+      // set the provider you want from Web3.providers
+      web3 = new Web3(new Web3.providers.HttpProvider(url + ":8545"));
+    }
+
+    var SolidityCoder = require("web3/lib/solidity/coder.js");
+
     $('#nodeName').text(config.name);
     $('#nodeType').text(config.typ);
     $('#coinbase').text(account);
