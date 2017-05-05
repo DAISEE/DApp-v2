@@ -95,7 +95,7 @@ def get_energy_data():
     itemLogin = param['user']['sensorLogin']
     itemPswd = param['user']['sensorPassword']
     itemSource = param['user']['sensorSource']
-    itemPort = ':' + param['user']['sensorPort']
+    itemPort = param['user']['sensorPort']
 
     try:
         if itemSource == 'CW':
