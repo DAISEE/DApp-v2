@@ -10,7 +10,7 @@ import logging
 
 with open('config.yml', 'r') as stream:
     try:
-        param = yaml.load(stream)
+        param = yaml.safe_load(stream)
     except yaml.YAMLError as e:
         logging.exception("error reading config file")
 
