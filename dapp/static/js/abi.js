@@ -1,19 +1,6 @@
 var abiArray = [
   {
     "constant": false,
-    "inputs": [],
-    "name": "getEnergyConsumption",
-    "outputs": [
-      {
-        "name": "energyBal",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "type": "function"
-  },
-  {
-    "constant": false,
     "inputs": [
       {
         "name": "coinContractAddress",
@@ -39,8 +26,30 @@ var abiArray = [
     "type": "function"
   },
   {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "energyProduction",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "type": "function"
+  },
+  {
     "constant": false,
     "inputs": [
+      {
+        "name": "origin",
+        "type": "address"
+      },
       {
         "name": "energy",
         "type": "uint256"
@@ -49,7 +58,29 @@ var abiArray = [
     "name": "consumeEnergy",
     "outputs": [
       {
-        "name": "EnergyBal",
+        "name": "EnergyCons",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      },
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "energyConsumption",
+    "outputs": [
+      {
+        "name": "",
         "type": "uint256"
       }
     ],
@@ -97,7 +128,7 @@ var abiArray = [
     "name": "setProduction",
     "outputs": [
       {
-        "name": "EnergyBal",
+        "name": "EnergyProd",
         "type": "uint256"
       }
     ],
@@ -105,12 +136,17 @@ var abiArray = [
     "type": "function"
   },
   {
-    "constant": false,
-    "inputs": [],
-    "name": "getRate",
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "totalEnergyConsumption",
     "outputs": [
       {
-        "name": "energyRate",
+        "name": "",
         "type": "uint256"
       }
     ],
@@ -118,25 +154,21 @@ var abiArray = [
     "type": "function"
   },
   {
-    "constant": false,
-    "inputs": [],
-    "name": "getEnergyBalance",
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      },
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "allowance",
     "outputs": [
       {
-        "name": "energyBal",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [],
-    "name": "getEnergyProduction",
-    "outputs": [
-      {
-        "name": "energyBal",
+        "name": "",
         "type": "uint256"
       }
     ],
@@ -145,8 +177,8 @@ var abiArray = [
   },
   {
     "inputs": [],
-    "payable": false,
-    "type": "constructor"
+    "type": "constructor",
+    "payable": true
   },
   {
     "anonymous": false,
@@ -171,6 +203,11 @@ var abiArray = [
       {
         "indexed": false,
         "name": "from",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "origin",
         "type": "address"
       },
       {

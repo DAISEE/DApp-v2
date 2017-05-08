@@ -91,9 +91,11 @@ $.getJSON("http://" + ip  + "/getconfig/", function (data) {
       d.setUTCSeconds(timeStamp);
       $("#latestBlockTimestamp").text(d);
 
-      // Contract energy balance: call (not state changing)
-      var energyBalance = contract.getEnergyBalance.call();
-      $("#energyBalance").text(energyBalance);
+      var energyProduction = contract.energyProduction(account);
+      $("#energyProduction").text(energyProduction);
+
+      var energyConsumption = contract.totalEnergyConsumption(account);
+      $("#energyConsumption").text(energyConsumption);
 
       $("#startedAt").text(now);
 
