@@ -67,6 +67,10 @@ contract Daisee {
 
     // fonction permettant la vente d'énergie
     function buyEnergy(address coinContractAddress, address seller, uint energy) returns (bool transactionOK) {
+
+        // on verifie d'abord que l'acheteur n'achète pas sa propre énergie
+        if ( msg.sender == seller ) throw;
+
         // appel de la fonction de transfer de DaiseeCoin
         // 1W = 1DaiseeCoin, pas de besoin de conversion
         transactionOK = sendCoin(coinContractAddress, msg.sender, seller, energy);
