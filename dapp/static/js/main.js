@@ -102,25 +102,40 @@ $.getJSON("http://" + ip  + "/getconfig/", function (data) {
 
       $("#startedAt").text(now);
 
-      // TODO : gerer le nombre de vendeurs
+      // TODO : gérer le nombre de vendeurs
+      // à voir l'appel de la fonction nbSellers() qui nécessite une validation
+      // non nécessaire quand appel python 'result = daisee.call().nbSellers()'
       var nbsellers = 2;
-      console.log('nbsellers = ' + nbsellers);
-      tab = "";
+
+      var table = document.getElementById('purchased');
+      var rowCount = table.rows.length;
 
       for (var i = 0; i < nbsellers; i++) {
+
         console.log('Iteration n°' + i);
+
         var sellerAddress = contract.sellerIndex(i);
         var allowance = parseInt(contract.allowance(sellerAddress, account));
         var consumptionFromSeller = parseInt(contract.energyConsumption(account, sellerAddress));
         var totalPurchasedEnergy = allowance + consumptionFromSeller;
-        tab = tab + ("<tr><td>" + sellerAddress +
-        "</td><td>" + consumptionFromSeller +
-        "</td><td>" + allowance +
-        "</td><td>" + totalPurchasedEnergy + "</td></tr>");
-      }
 
-      // TODO : gérer le formatage du tableau
-      $("#energystat").replaceWith(tab);
+        // on recherche si le vendeur est déjà présent
+        try{
+          var row=table.rows;
+          var y=row[i+1].cells; //ligne
+          y[2].innerHTML=consumptionFromSeller; //colonne
+          y[3].innerHTML=allowance ; //colonne
+          y[4].innerHTML=totalPurchasedEnergy; //colonne
+        }
+        catch(e){
+          $("#energystat").append("<tr><td>" + i +
+          "</td><td>" + sellerAddress +
+          "</td><td>" + consumptionFromSeller +
+          "</td><td>" + allowance +
+          "</td><td>" + totalPurchasedEnergy + "</td></tr>");
+        }
+
+      }
 
     }, 1000);
 
