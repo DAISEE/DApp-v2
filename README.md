@@ -2,8 +2,7 @@
 
 ![Snapshot](images/DApp.png)
 
-Prototype for a decentralized application on a private blockchain (Ethereum).   
-_Work in progress ([proto v0.2](https://github.com/DAISEE/Prototypes#prototype-v02))_  
+Prototype for a decentralized application on a private blockchain (Ethereum). _Work in progress ([proto v0.2](https://github.com/DAISEE/Prototypes#prototype-v02))_  
  
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9054abf72b0d490aa60599865f2ed4a2)](https://www.codacy.com/app/SamR1/DApp-v2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DAISEE/DApp-v2&amp;utm_campaign=Badge_Grade)
 
