@@ -3,7 +3,7 @@ contract Daisee {
 
     // variables
     //// tarif de l'énergie en DaiseeCoin
-    uint private rate;
+    uint public rate;
     bool private transactionOK;
 
     //// utilisateurs
@@ -44,12 +44,12 @@ contract Daisee {
 	}
 
 
-    function nbSellers() returns (uint) {
+    function nbSellers() public constant returns (uint) {
         return sellerIndex.length;
     }
 
 
-    function isSeller(address sellerAddress) returns(bool isSeller) {
+    function isSeller(address sellerAddress) public constant returns(bool isSeller) {
         if(sellerIndex.length == 0) return false;
         return (sellerIndex[sellersList[sellerAddress].index] == sellerAddress);
     }
@@ -57,7 +57,7 @@ contract Daisee {
 
     function addSeller(address sellerAddress) private returns (uint nbSellers) {
         if(!isSeller(sellerAddress)) {
-         sellersList[sellerAddress].index = sellerIndex.push(sellerAddress)-1;
+            sellersList[sellerAddress].index = sellerIndex.push(sellerAddress)-1;
         }
     }
 
