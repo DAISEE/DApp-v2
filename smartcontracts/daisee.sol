@@ -5,13 +5,21 @@ contract Daisee {
     //// tarif de l'énergie en DaiseeCoin
     uint private rate;
     bool private transactionOK;
+
     //// utilisateurs
     mapping (address => uint) public energyProduction;
     mapping (address => uint) public totalEnergyConsumption;
     ///// energyConsumption[msg.sender][origin]
-    mapping (address => mapping (address => uint256)) public energyConsumption;
+    mapping (address => mapping (address => uint)) public energyConsumption;
     ///// allowance[seller][msg.sender]
-    mapping (address => mapping (address => uint256)) public allowance;
+    mapping (address => mapping (address => uint)) public allowance;
+
+    //// list of sellers
+    struct Seller {
+        uint index;
+      }
+    mapping (address => Seller) private sellersList;
+    address[] public sellerIndex;
 
     // constructeur
     function Daisee() {
@@ -34,6 +42,24 @@ contract Daisee {
 		success = m.transferFrom(energyBuyer, energySeller, amount);
 		return success;
 	}
+
+
+    function nbSellers() returns (uint) {
+        return sellerIndex.length;
+    }
+
+
+    function isSeller(address sellerAddress) returns(bool isSeller) {
+        if(sellerIndex.length == 0) return false;
+        return (sellerIndex[sellersList[sellerAddress].index] == sellerAddress);
+    }
+
+
+    function addSeller(address sellerAddress) private returns (uint nbSellers) {
+        if(!isSeller(sellerAddress)) {
+         sellersList[sellerAddress].index = sellerIndex.push(sellerAddress)-1;
+        }
+    }
 
 
     // fonction permettant de mettre à jour l'énergie produite et
@@ -69,14 +95,17 @@ contract Daisee {
     function buyEnergy(address coinContractAddress, address seller, uint energy) returns (bool transactionOK) {
 
         // on verifie d'abord que l'acheteur n'achète pas sa propre énergie
-        if ( msg.sender == seller ) throw;
+        if (msg.sender == seller) throw;
 
         // appel de la fonction de transfer de DaiseeCoin
         // 1W = 1DaiseeCoin, pas de besoin de conversion
         transactionOK = sendCoin(coinContractAddress, msg.sender, seller, energy);
         if (transactionOK != true) throw;
 
-        // on met à jour la quantité d'énergie pouvant être consommée
+        // on met à jour :
+        // - la liste des vendeurs
+        addSeller(seller);
+        // - la quantité d'énergie pouvant être consommée
         allowance[seller][msg.sender] += energy;
 
         //event

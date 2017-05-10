@@ -40,9 +40,10 @@ $.getJSON("http://" + ip  + "/getconfig/", function (data) {
     consevent.watch(function(error, result){
       if (!error){
         var from = result.args.from===account ? "me" : result.args.from;
+        var origin = result.args.origin===account ? "me" : result.args.origin;
         $("#transactions").append("<tr><td>" + result.blockNumber +
+        "</td><td>" + origin +
         "</td><td>" + from +
-        "</td><td>" +
         "</td><td>Energy consumed : " + result.args.energy.c.toString() + " W</td></tr>");
         }
     });
@@ -62,7 +63,7 @@ $.getJSON("http://" + ip  + "/getconfig/", function (data) {
         var from = result.args.from===account ? "me" : result.args.from;
         var to = result.args.to===account ? "me" : result.args.to;
         $("#transactions").append("<tr><td>" + result.blockNumber +
-        "/td><td>" + from +
+        "</td><td>" + from +
         "</td><td>" + to +
         "</td><td>Energy purchased : " + result.args.energy.c.toString() + " W</td></tr>");
         }
@@ -96,6 +97,35 @@ $.getJSON("http://" + ip  + "/getconfig/", function (data) {
       $("#energyConsumption").text(energyConsumption);
 
       $("#startedAt").text(now);
+
+      var nbsellers = contract.nbSellers();
+
+      var table = document.getElementById('purchased');
+      var rowCount = table.rows.length;
+
+      for (var i = 0; i < nbsellers; i++) {
+
+        var sellerAddress = contract.sellerIndex(i);
+        var allowance = parseInt(contract.allowance(sellerAddress, account));
+        var consumptionFromSeller = parseInt(contract.energyConsumption(account, sellerAddress));
+        var totalPurchasedEnergy = allowance + consumptionFromSeller;
+
+        try{
+          var row=table.rows;
+          var y=row[i+1].cells;
+          y[2].innerHTML=consumptionFromSeller;
+          y[3].innerHTML=allowance ;
+          y[4].innerHTML=totalPurchasedEnergy;
+        }
+        catch(e){
+          $("#energystat").append("<tr><td>" + i +
+          "</td><td>" + sellerAddress +
+          "</td><td>" + consumptionFromSeller +
+          "</td><td>" + allowance +
+          "</td><td>" + totalPurchasedEnergy + "</td></tr>");
+        }
+
+      }
 
     }, 1000);
 
