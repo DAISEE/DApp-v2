@@ -42,9 +42,12 @@ $.getJSON("http://" + ip  + "/getconfig/", function (data) {
     consevent.watch(function(error, result){
       if (!error){
         var from = result.args.from===account ? "me" : result.args.from;
+        var origin = result.args.origin===account ? "me" : result.args.origin;
+        console.log('to');
+        console.log(origin);
         $("#transactions").append("<tr><td>" + result.blockNumber +
+        "</td><td>" + origin +
         "</td><td>" + from +
-        "</td><td>" +
         "</td><td>Energy consumed : " + result.args.energy.c.toString() + " W</td></tr>");
         }
     });
@@ -64,7 +67,7 @@ $.getJSON("http://" + ip  + "/getconfig/", function (data) {
         var from = result.args.from===account ? "me" : result.args.from;
         var to = result.args.to===account ? "me" : result.args.to;
         $("#transactions").append("<tr><td>" + result.blockNumber +
-        "/td><td>" + from +
+        "</td><td>" + from +
         "</td><td>" + to +
         "</td><td>Energy purchased : " + result.args.energy.c.toString() + " W</td></tr>");
         }
@@ -98,6 +101,26 @@ $.getJSON("http://" + ip  + "/getconfig/", function (data) {
       $("#energyConsumption").text(energyConsumption);
 
       $("#startedAt").text(now);
+
+      // TODO : gerer le nombre de vendeurs
+      var nbsellers = 2;
+      console.log('nbsellers = ' + nbsellers);
+      tab = "";
+
+      for (var i = 0; i < nbsellers; i++) {
+        console.log('Iteration n°' + i);
+        var sellerAddress = contract.sellerIndex(i);
+        var allowance = parseInt(contract.allowance(sellerAddress, account));
+        var consumptionFromSeller = parseInt(contract.energyConsumption(account, sellerAddress));
+        var totalPurchasedEnergy = allowance + consumptionFromSeller;
+        tab = tab + ("<tr><td>" + sellerAddress +
+        "</td><td>" + consumptionFromSeller +
+        "</td><td>" + allowance +
+        "</td><td>" + totalPurchasedEnergy + "</td></tr>");
+      }
+
+      // TODO : gérer le formatage du tableau
+      $("#energystat").replaceWith(tab);
 
     }, 1000);
 

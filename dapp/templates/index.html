@@ -81,7 +81,29 @@
   <div class="container">
     <div class="row">
       <div>
-        <h2 class="sub-header">Latest transactions <font size =4> (since <strong id="startedAt"></strong>)</font>:</h2>
+        <h4 class="sub-header">Purchased energy:</h4>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>from</th>
+                <th>consumed</th>
+                <th>remain</th>
+                <th>total</th>
+              </tr>
+            </thead>
+             <tbody id="energystat">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div>
+        <h4 class="sub-header">Latest energy transactions <font size =4> (since <strong id="startedAt"></strong>)</font>:</h4>
         <div class="table-responsive">
           <table class="table table-striped">
             <thead>
@@ -92,13 +114,12 @@
                 <th>transactions</th>
               </tr>
             </thead>
-            <tbody id="transactions">
+             <tbody id="transactions">
             </tbody>
           </table>
         </div>
       </div>
     </div>
-
   </div> <!-- container -->
 
 </body>

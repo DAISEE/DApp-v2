@@ -70,6 +70,24 @@ var abiArray = [
     "inputs": [
       {
         "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "sellerIndex",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
         "type": "address"
       },
       {
@@ -154,6 +172,19 @@ var abiArray = [
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [],
+    "name": "nbSellers",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [
       {
@@ -176,9 +207,27 @@ var abiArray = [
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "sellerAddress",
+        "type": "address"
+      }
+    ],
+    "name": "isSeller",
+    "outputs": [
+      {
+        "name": "isSeller",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "type": "function"
+  },
+  {
     "inputs": [],
-    "type": "constructor",
-    "payable": true
+    "payable": false,
+    "type": "constructor"
   },
   {
     "anonymous": false,
