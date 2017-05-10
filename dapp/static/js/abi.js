@@ -27,6 +27,19 @@ var abiArray = [
   },
   {
     "constant": true,
+    "inputs": [],
+    "name": "rate",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "type": "function"
+  },
+  {
+    "constant": true,
     "inputs": [
       {
         "name": "",
@@ -172,7 +185,7 @@ var abiArray = [
     "type": "function"
   },
   {
-    "constant": false,
+    "constant": true,
     "inputs": [],
     "name": "nbSellers",
     "outputs": [
@@ -207,7 +220,7 @@ var abiArray = [
     "type": "function"
   },
   {
-    "constant": false,
+    "constant": true,
     "inputs": [
       {
         "name": "sellerAddress",
