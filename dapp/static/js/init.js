@@ -98,9 +98,10 @@ $.getJSON("http://" + ip  + "/getconfig/", function (data) {
 
       $("#startedAt").text(now);
 
+      // Purchased energy informations
       var nbsellers = contract.nbSellers();
 
-      var table = document.getElementById('purchased');
+      var table = document.getElementById("purchased");
       var rowCount = table.rows.length;
 
       for (var i = 0; i < nbsellers; i++) {
@@ -114,7 +115,7 @@ $.getJSON("http://" + ip  + "/getconfig/", function (data) {
           var row=table.rows;
           var y=row[i+1].cells;
           y[2].innerHTML=consumptionFromSeller;
-          y[3].innerHTML=allowance ;
+          y[3].innerHTML=allowance;
           y[4].innerHTML=totalPurchasedEnergy;
         }
         catch(e){
