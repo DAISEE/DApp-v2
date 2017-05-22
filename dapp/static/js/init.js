@@ -4,7 +4,7 @@ $.getJSON("http://" + ip  + "/getconfig/", function (data) {
     var json = JSON.stringify(data.result);
     var config = JSON.parse(json);
 
-    var contractAddress = config.contract;
+    var contractAddress = config.daisee;
     var account = config.coinbase;
     var tokenAddress = config.token;
     var url = config.ip;
