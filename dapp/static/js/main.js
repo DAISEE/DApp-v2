@@ -113,6 +113,8 @@ $.getJSON("http://" + ip  + "/getconfig/", function (data) {
         var consumptionFromSeller = parseInt(contract.energyConsumption(account, sellerAddress));
         var totalPurchasedEnergy = allowance + consumptionFromSeller;
 
+        if (totalPurchasedEnergy === 0) { continue; }
+
         try{
           var row=table.rows;
           var y=row[i+1].cells;
