@@ -62,7 +62,9 @@
         <h4>My account</h4>
         <h5>Address: <br><strong id="coinbase"></strong></h5>
         <h5>Token Balance (DaiseeCoin): <br><strong id="balance"></strong></h5>
-        <h5>Energy Balance (Watt): <br><strong id="energyBalance"></strong></h5>
+        <h5>Energy :</h5>
+        <h5>> Total consumption (Watt): <br><strong id="energyConsumption"></strong></h5>
+        <h5>> Total production  (Watt): <br><strong id="energyProduction"></strong></h5>
       </div>
 
       <div class="col-md-8">
@@ -72,14 +74,34 @@
 		</div>
       </div>
     </div>
-    <br>
-    <br>
   </div> <!-- container -->
 
   <div class="container">
     <div class="row">
       <div>
-        <h2 class="sub-header">Latest transactions <font size =4> (since <strong id="startedAt"></strong>)</font>:</h2>
+        <h3 class="sub-header">Purchased energy:</h3>
+        <div class="table-responsive">
+          <table class="table table-striped" id="purchased">
+            <thead>
+              <tr>
+                <th>n°</th>
+                <th>from</th>
+                <th>consumed</th>
+                <th>remain</th>
+                <th>total</th>
+              </tr>
+            </thead>
+            <tbody id="energystat"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div>
+        <h3 class="sub-header">Latest energy transactions <font size =4> (since <strong id="startedAt"></strong>)</font>:</h3>
         <div class="table-responsive">
           <table class="table table-striped">
             <thead>
@@ -90,13 +112,11 @@
                 <th>transactions</th>
               </tr>
             </thead>
-            <tbody id="transactions">
-            </tbody>
+            <tbody id="transactions"></tbody>
           </table>
         </div>
       </div>
     </div>
-
   </div> <!-- container -->
 
 </body>

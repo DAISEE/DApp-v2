@@ -1,19 +1,6 @@
 var abiArray = [
   {
     "constant": false,
-    "inputs": [],
-    "name": "getEnergyConsumption",
-    "outputs": [
-      {
-        "name": "energyBal",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "type": "function"
-  },
-  {
-    "constant": false,
     "inputs": [
       {
         "name": "coinContractAddress",
@@ -39,8 +26,43 @@ var abiArray = [
     "type": "function"
   },
   {
+    "constant": true,
+    "inputs": [],
+    "name": "rate",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "energyProduction",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "type": "function"
+  },
+  {
     "constant": false,
     "inputs": [
+      {
+        "name": "origin",
+        "type": "address"
+      },
       {
         "name": "energy",
         "type": "uint256"
@@ -49,7 +71,47 @@ var abiArray = [
     "name": "consumeEnergy",
     "outputs": [
       {
-        "name": "EnergyBal",
+        "name": "EnergyCons",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "sellerIndex",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      },
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "energyConsumption",
+    "outputs": [
+      {
+        "name": "",
         "type": "uint256"
       }
     ],
@@ -97,7 +159,7 @@ var abiArray = [
     "name": "setProduction",
     "outputs": [
       {
-        "name": "EnergyBal",
+        "name": "EnergyProd",
         "type": "uint256"
       }
     ],
@@ -105,12 +167,17 @@ var abiArray = [
     "type": "function"
   },
   {
-    "constant": false,
-    "inputs": [],
-    "name": "getRate",
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "totalEnergyConsumption",
     "outputs": [
       {
-        "name": "energyRate",
+        "name": "",
         "type": "uint256"
       }
     ],
@@ -118,12 +185,12 @@ var abiArray = [
     "type": "function"
   },
   {
-    "constant": false,
+    "constant": true,
     "inputs": [],
-    "name": "getEnergyBalance",
+    "name": "nbSellers",
     "outputs": [
       {
-        "name": "energyBal",
+        "name": "",
         "type": "uint256"
       }
     ],
@@ -131,13 +198,40 @@ var abiArray = [
     "type": "function"
   },
   {
-    "constant": false,
-    "inputs": [],
-    "name": "getEnergyProduction",
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      },
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "allowance",
     "outputs": [
       {
-        "name": "energyBal",
+        "name": "",
         "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "sellerAddress",
+        "type": "address"
+      }
+    ],
+    "name": "isSeller",
+    "outputs": [
+      {
+        "name": "isSeller",
+        "type": "bool"
       }
     ],
     "payable": false,
@@ -171,6 +265,11 @@ var abiArray = [
       {
         "indexed": false,
         "name": "from",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "origin",
         "type": "address"
       },
       {

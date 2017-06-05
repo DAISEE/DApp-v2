@@ -1,7 +1,6 @@
-contract:
-  address: ''
-token:
-  address: ''
+contracts:
+  daisee: ''
+  token: ''
 user:
   login: ''
   pwd: ''
@@ -14,5 +13,3 @@ user:
   sensorPassword: ''
   sensorSource: ''
   sensorPort: ''
-  lat:
-  lon:
