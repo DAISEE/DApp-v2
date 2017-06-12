@@ -104,18 +104,23 @@ $.getJSON("http://" + ip  + "/getconfig/", function (data) {
       var table = document.getElementById("purchased");
       var rowCount = table.rows.length;
 
+      var j = 0;
+
       for (var i = 0; i < nbsellers; i++) {
 
         var sellerAddress = contract.sellerIndex(i);
+        if (sellerAddress === account) { continue; }
+
         var allowance = parseInt(contract.allowance(sellerAddress, account));
         var consumptionFromSeller = parseInt(contract.energyConsumption(account, sellerAddress));
         var totalPurchasedEnergy = allowance + consumptionFromSeller;
 
         if (totalPurchasedEnergy === 0) { continue; }
+        else { j += 1 }
 
         try{
           var row=table.rows;
-          var y=row[i+1].cells;
+          var y=row[j].cells;
           y[2].innerHTML=consumptionFromSeller;
           y[3].innerHTML=allowance;
           y[4].innerHTML=totalPurchasedEnergy;
