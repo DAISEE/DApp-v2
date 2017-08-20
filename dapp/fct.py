@@ -32,10 +32,10 @@ def gethash(word):
 def getconfig():
     config = {'daisee': param['contracts']['daisee'],
               'name': param['user']['name'],
-              'coinbase': param['user']['coinbase'],
+              'account': param['user']['coinbase'],
               'typ': param['user']['typ'],
               'token': param['contracts']['token'],
-              'ip': param['user']['url']}
+              'nodeUrl': param['user']['url']}
 
     return config
 
@@ -85,7 +85,7 @@ def get_energy_data():
     """
     This function collects data from all sensors (connected to each piece of work (=item))
     """
-    log = logging.getLogger("get_energy_data")
+    #log = logging.getLogger("get_energy_data")
 
     # definition of the time interval, in order to collect data
     time0 = time.time()

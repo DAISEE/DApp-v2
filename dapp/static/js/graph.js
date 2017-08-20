@@ -92,6 +92,6 @@ function update() {
 }
 
 $(document).ready(function () {
-    initData();
-    update();
+    // initData();
+    // update();
 });
