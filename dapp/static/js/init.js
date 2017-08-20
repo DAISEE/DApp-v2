@@ -1,8 +1,7 @@
 var ip = location.host;
-$.getJSON("http://" + ip  + "/getconfig/", function (data) {
+$.getJSON("/getconfig/", function (data) {
 
-    var json = JSON.stringify(data.result);
-    var config = JSON.parse(json);
+    var config = data.result;
 
     var contractAddress = config.daisee;
     var account = config.coinbase;
