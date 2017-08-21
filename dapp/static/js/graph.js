@@ -1,4 +1,3 @@
-var ip  = location.host;
 var now = new Date().getTime();
 
 var energyData     = [];
@@ -72,8 +71,7 @@ function initData() {
 }
 
 function getData() {
-
-    $.getJSON("http://" + ip  + "/get_data/", function (data) {
+    $.getJSON("/get_data/", function (data) {
         var json = JSON.stringify(data.result);
         var item = JSON.parse(json);
         // var energy = [item.timestamp, item.value]; //data format [x, y]
@@ -82,6 +80,9 @@ function getData() {
 
         if (energyData.length > totalPoints) {energyData.shift();}
         energyData.push(energy);
+    }) 
+    .fail(function() {
+        console.log( "Error: getData failed (getJSON)" )
     });
 }
 
@@ -92,6 +93,6 @@ function update() {
 }
 
 $(document).ready(function () {
-    // initData();
-    // update();
+    initData();
+    update();
 });

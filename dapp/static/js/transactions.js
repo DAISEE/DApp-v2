@@ -4,7 +4,7 @@ var jqxhr   = $.getJSON("/getconfig/", function(data) {
 	var account         = data.result.account;
 	var tokenAddress    = data.result.token;
 	var contractAddress = data.result.daisee;    
-	var Web3            = require('web3');
+	var Web3            = require("web3");
 	var web3            = new Web3();
 
 	web3.setProvider(new web3.providers.HttpProvider(nodeUrl));
@@ -127,4 +127,4 @@ var jqxhr   = $.getJSON("/getconfig/", function(data) {
 })
   .fail(function() {
 	console.log( "Error: getconfig failed (getJSON)" );
-})
+});
